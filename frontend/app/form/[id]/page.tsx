@@ -12,13 +12,15 @@ import TextArea from "../../FormElements/TextArea";
 import { FormEvent, useLayoutEffect, useState } from "react";
 import FormType from "../../Interfaces/FormType";
 import { incompleteContext } from "../../Context/FormContext";
+import { useParams } from "next/navigation";
 
 const Form = () => {
+   const formID = useParams().id;
   const [form, setForm] = useState<FormType>({title:undefined, description:undefined, imageSrc:undefined, inputs:[]});
   const [incomplete, setIncomplete] = useState<string[]>([]);
 
   useLayoutEffect(() => {
-    fetch("http://192.168.8.186:3000/form/1")
+    fetch("http://192.168.8.186:3000/form/"+formID)
       .then((res) => {
         return res.json();
       })
@@ -64,10 +66,7 @@ const Form = () => {
     });
 
     setIncomplete(incompleteFields);
-    // formData.delete("photo")
-    for (const [key, value] of formData.entries()) {
-      console.log(key, value);
-    }
+    
     if(incomplete.length===0){
         fetch("http://192.168.8.186:3000/form/submit", {
           method: "post",
@@ -77,11 +76,6 @@ const Form = () => {
           console.log(res);
         });
     }
-
-    // for (const [key, value] of formData.entries()) {
-
-    //   console.log(`${key}: ${value}`);
-    // }
   };
   return (
     <div className="m-2 flex justify-center">

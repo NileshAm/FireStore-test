@@ -20,6 +20,7 @@ interface BaseInput {
   name: string;
   description: string;
   required?: boolean;
+  uID?:boolean
 }
 
 // Specific input types

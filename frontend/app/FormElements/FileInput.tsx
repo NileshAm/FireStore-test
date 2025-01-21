@@ -19,7 +19,7 @@ const FileInput = ({
       <CardTitle name={name} description={description} required={required} />
       <input
         type={"file"}
-        name={"photo"}
+        name={id}
         id={id}
         accept={accept?.toString()}
         className="w-full my-2 py-1 px-2 text-slate-800 rounded-lg"

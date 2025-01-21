@@ -51,14 +51,17 @@ const getFirebaseApp = () => {
   return app;
 };
 
-const getData = async () => {
+const getFirebaseDB=()=>{
+  return firebaseDB
+}
+
+const getData = async (collectionID) => {
   try {
-    const collectionRef = collection(firebaseDB, "users");
+    const collectionRef = collection(firebaseDB, collectionID);
     const data = [];
     const q = query(collectionRef);
 
     const docSnap = await getDocs(q);
-
     docSnap.forEach((doc) => {
       data.push(doc.data());
     });
@@ -68,4 +71,31 @@ const getData = async () => {
   }
 };
 
-export { initializeFirebaseApp, getFirebaseApp, uploadData, getData };
+const getDocID = async (collectionID)=>{
+  try {
+    const collectionRef = collection(firebaseDB, collectionID);
+    const data = [];
+    const q = query(collectionRef);
+
+    const docSnap = await getDocs(q);
+    docSnap.forEach((doc) => {
+      data.push(doc.id);
+    });
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+const getDocData = async (collectionID, docID)=>{
+  try {
+    const docRef = doc(firebaseDB, collectionID, docID);
+    const docSnap = await getDoc(docRef);
+    const data = docSnap.data();
+    return data
+  } catch (error) {
+   console.log(error) 
+  }
+}
+
+export { initializeFirebaseApp, getFirebaseApp, uploadData, getData, getFirebaseDB, getDocID , getDocData};
